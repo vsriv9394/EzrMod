@@ -1,4 +1,5 @@
-R = 287.058
+#R = 287.058
+R = 1.0
 
 def calcCp(enth):
 
@@ -6,7 +7,8 @@ def calcCp(enth):
 
 def calcCv(e):
 
-	return 287.058 / 0.4
+	return 2.0
+	#return 287.058 / 0.4
 
 def calcMuLam(T):
 

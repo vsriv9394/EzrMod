@@ -1,0 +1,6 @@
+**/__pycache__
+*.c
+*.pyc
+*.so
+*.tape
+!Tape.c

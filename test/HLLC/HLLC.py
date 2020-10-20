@@ -121,7 +121,7 @@ def HLLC(tape):
 			Frho     = Frho     + rhoL * unL
 			Frhou    = Frhou    + rhoL*velL*unL + pL*n
 			FrhoE    = FrhoE    + (rhoEL + pL) * unL
-			FrhoScal = FrhoScal + [Frho * scalL[iScal] for iScal in range(nScal)]
+			FrhoScal = [FrhoScal[iScal] + Frho * scalL[iScal] for iScal in range(nScal)]
 
 		else:
 
@@ -132,7 +132,7 @@ def HLLC(tape):
 			Frho     = Frho     + rhoSL * sM
 			Frhou    = Frhou    + rhouSL * sM + pStar * n
 			FrhoE    = FrhoE    + (rhoESL + pStar) * sM
-			FrhoScal = FrhoScal + [Frho * scalL[iScal] for iScal in range(nScal)]
+			FrhoScal = [FrhoScal[iScal] + Frho * scalL[iScal] for iScal in range(nScal)]
 
 	else:
 
@@ -145,14 +145,14 @@ def HLLC(tape):
 			Frho     = Frho     + rhoSR * sM
 			Frhou    = Frhou    + rhouSR * sM + pStar * n
 			FrhoE    = FrhoE    + (rhoESR + pStar) * sM
-			FrhoScal = FrhoScal + [Frho * scalR[iScal] for iScal in range(nScal)]
+			FrhoScal = [FrhoScal[iScal] + Frho * scalR[iScal] for iScal in range(nScal)]
 
 		else:
 
 			Frho     = Frho     + rhoR * unR
 			Frhou    = Frhou    + rhoR*velR*unR + pR*n
 			FrhoE    = FrhoE    + (rhoER + pR) * unR
-			FrhoScal = FrhoScal + [Frho * scalR[iScal] for iScal in range(nScal)]
+			FrhoScal = [FrhoScal[iScal] + Frho * scalR[iScal] for iScal in range(nScal)]
 
 	sMax = ez.max(ez.abs(sL), ez.abs(sR))
 
