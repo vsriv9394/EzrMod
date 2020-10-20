@@ -53,13 +53,6 @@ class LoopedEzrFunction(object):
       f.write("  int *__elseEnd__\n")
       f.write(")\n")
       f.write("{\n")
-      if jac==True:
-        for outVar in outVars:
-          if outVar[3]==True:
-            for inVar in inVars:
-              if inVar[3]==True:
-                f.write("  double *jacPtr__%s__%s = jac__%s__%s;\n"%(outVar[1], inVar[1], outVar[1], inVar[1]))
-      f.write("\n")
       f.write("  for(int i=0; i<%d; i++)\n"%(n))
       f.write("  {\n")
       f.write("    double *vptr=__value__, *dptr=__deriv__;\n")
@@ -98,10 +91,10 @@ class LoopedEzrFunction(object):
               for inVar in inVars:
                 if inVar[3]==True:
                   if len(inVar[0].shape)==1:
-                    f.write("    *(jacPtr__%s__%s++) = *(dptr++);\n"%(outVar[1], inVar[1]))
+                    f.write("    *(jac__%s__%s++) = *(dptr++);\n"%(outVar[1], inVar[1]))
                   else:
                     size = np.prod(inVar[0].shape[1:])
-                    f.write("    for(int k=0; k<%d; k++) *(jacPtr__%s__%s++) = *(dptr++);\n"%(size, outVar[1], inVar[1]))
+                    f.write("    for(int k=0; k<%d; k++) *(jac__%s__%s++) = *(dptr++);\n"%(size, outVar[1], inVar[1]))
                 else:
                   if len(inVar[0].shape)==1:
                     f.write("    dptr++;\n")
@@ -118,10 +111,10 @@ class LoopedEzrFunction(object):
               for inVar in inVars:
                 if inVar[3]==True:
                   if len(inVar[0].shape)==1:
-                    f.write("      *(jacPtr__%s__%s++) = *(dptr++);\n"%(outVar[1], inVar[1]))
+                    f.write("      *(jac__%s__%s++) = *(dptr++);\n"%(outVar[1], inVar[1]))
                   else:
                     size = np.prod(inVar[0].shape[1:])
-                    f.write("      for(int k=0; k<%d; k++) *(jacPtr__%s__%s++) = *(dptr++);\n"%(size, outVar[1], inVar[1]))
+                    f.write("      for(int k=0; k<%d; k++) *(jac__%s__%s++) = *(dptr++);\n"%(size, outVar[1], inVar[1]))
                 else:
                   if len(inVar[0].shape)==1:
                     f.write("      dptr++;\n")
