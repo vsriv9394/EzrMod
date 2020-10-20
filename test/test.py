@@ -7,11 +7,13 @@ def simpleFunction(tape):
 	y = ez.scalar(tape)
 	z = ez.scalar(tape)
 
+	res = 0.0
+
 	if x>y:
 		res = (x+y)*z
 
-	if y>_2_:
-		res = (x+y)**_2_
+	if y>3.0:
+		res = (x+y)**2
 
 	res = res * 1.0
 
@@ -34,7 +36,7 @@ forwprop.restype = C.c_int
 backprop.restype = None
 
 tape["value"][0] = 1.0
-tape["value"][1] = 3.0
+tape["value"][1] = 4.0
 tape["value"][2] = 6.0
 
 idres = \
