@@ -108,8 +108,9 @@ void backProp(int depVar, int *op1, int *op2, double *value, double *deriv, int 
 					case ADD:  dx = 1.0;   dy =  1.0;            break;
 					case SUB:  dx = 1.0;   dy = -1.0;            break;
 					case MUL:  dx = y;     dy =  x;              break;
-					case DIV:  dx = z/x;   dy = -z/y;            break;
-					case POW:  dx = y*z/x; dy =  z*log(fabs(x)); break;
+					case DIV:  dx = 1.0/y; dy = -z/y;            break;
+					
+					case POW:  dx = (x==0.0) ? 0.0 : y*z/x; dy = z*log(fabs(x)); break;
 					
 					case EXP:  dx =  z;       break;
 					case LOG:  dx =  1.0/x;   break;
