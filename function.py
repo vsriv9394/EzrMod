@@ -4,6 +4,7 @@ import os
 from subprocess import call
 import ctypes as C
 from EzrMod.compile import compileFunction
+from mpi4py import MPI
 
 class LoopedEzrFunction(object):
 
@@ -12,6 +13,9 @@ class LoopedEzrFunction(object):
     self.jac = {}
     self.tape = compileFunction(func)
     ezrDir = os.path.dirname(inspect.getfile(compileFunction))
+
+    comm = MPI.COMM_WORLD
+    rank = comm.Get_rank()
 
     with open("%s.c"%(func.__name__), "w") as f:
 
@@ -126,12 +130,12 @@ class LoopedEzrFunction(object):
       f.write("  }\n")
       f.write("}\n")
 
-    call("gcc -O3 -fPIC -std=c99 --shared %s/Backend/Tape.c %s.c -o lib%s.so"%(ezrDir, func.__name__, func.__name__), shell=True)
+    call("gcc -O3 -fPIC -std=c99 --shared %s/Backend/Tape.c %s.c -o lib%s_%04d.so"%(ezrDir, func.__name__, func.__name__, rank), shell=True)
 
     _ip_ = C.POINTER(C.c_int)
     _dp_ = C.POINTER(C.c_double)
 
-    self.lib = C.CDLL("lib%s.so"%(func.__name__))
+    self.lib = C.CDLL("lib%s_%04d.so"%(func.__name__, rank))
 
     self.function = self.lib.__getattr__("applyEzFunc")
     self.function.restype = None
